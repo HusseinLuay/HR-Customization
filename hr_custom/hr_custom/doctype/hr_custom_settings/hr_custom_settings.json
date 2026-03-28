@@ -1,0 +1,113 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-03-27 22:07:22.228162",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "thresholds_section",
+  "late_entry_threshold_minutes",
+  "early_exit_threshold_minutes",
+  "column_break_efvy",
+  "escalation_rejection_limit",
+  "roles_section",
+  "attendance_approver_role",
+  "escalation_role"
+ ],
+ "fields": [
+  {
+   "fieldname": "thresholds_section",
+   "fieldtype": "Section Break",
+   "label": "Thresholds"
+  },
+  {
+   "default": "15",
+   "description": "Number of minutes after shift start time to consider as late entry",
+   "fieldname": "late_entry_threshold_minutes",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Late Entry Threshold Minutes",
+   "reqd": 1
+  },
+  {
+   "default": "15",
+   "description": "Number of minutes before shift end time to consider as early exit",
+   "fieldname": "early_exit_threshold_minutes",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Early Exit Threshold Minutes",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_efvy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "3",
+   "description": "Number of rejected warnings per month to trigger escalation",
+   "fieldname": "escalation_rejection_limit",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Escalation Rejection Limit",
+   "reqd": 1
+  },
+  {
+   "fieldname": "roles_section",
+   "fieldtype": "Section Break",
+   "label": "Roles"
+  },
+  {
+   "description": "Role responsible for approving or rejecting justifications",
+   "fieldname": "attendance_approver_role",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Attendance Approver Role",
+   "options": "Role",
+   "reqd": 1
+  },
+  {
+   "description": "Role notified when escalation threshold is reached",
+   "fieldname": "escalation_role",
+   "fieldtype": "Link",
+   "label": "Escalation Role",
+   "options": "Role",
+   "reqd": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-03-27 22:11:21.675649",
+ "modified_by": "Administrator",
+ "module": "Hr Custom",
+ "name": "HR Custom Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "HR Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

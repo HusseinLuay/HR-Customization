@@ -161,6 +161,19 @@ app_license = "mit"
 # 	],
 # }
 
+scheduler_events = {
+    "daily": [
+        (
+            "hr_custom"
+            ".hr_custom"
+            ".hr_custom"
+            ".scheduled_tasks"
+            ".attendance_warning_generator"
+            ".generate_attendance_warnings"
+        )
+    ]
+}
+
 # Testing
 # -------
 

@@ -1,0 +1,283 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-03-27 22:12:11.478665",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_soz8",
+  "amended_from",
+  "employee_information_section",
+  "employee",
+  "employee_name",
+  "column_break_ejai",
+  "company",
+  "warning_date",
+  "warning_details_section",
+  "warning_type",
+  "attendance",
+  "column_break_tlmd",
+  "shift",
+  "time_details_section",
+  "scheduled_in_time",
+  "actual_in_time",
+  "column_break_keel",
+  "scheduled_out_time",
+  "actual_out_time",
+  "justification_section",
+  "justification",
+  "justification_date",
+  "approval_section",
+  "approver",
+  "approval_decision",
+  "column_break_pnty",
+  "approval_date",
+  "approval_remarks",
+  "status"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_soz8",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "HR Attendance Warning",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "employee_information_section",
+   "fieldtype": "Section Break",
+   "label": "Employee Information"
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Employee",
+   "options": "Employee",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "employee.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Employee Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_ejai",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "employee.company",
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "warning_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Warning Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "warning_details_section",
+   "fieldtype": "Section Break",
+   "label": "Warning Details"
+  },
+  {
+   "fieldname": "warning_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Warning Type",
+   "options": "Late Entry\nEarly Exit\nAbsent\nLate Entry and Early Exit\nCustom",
+   "reqd": 1
+  },
+  {
+   "fieldname": "attendance",
+   "fieldtype": "Link",
+   "label": "Attendance",
+   "options": "Attendance"
+  },
+  {
+   "fieldname": "column_break_tlmd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "shift",
+   "fieldtype": "Link",
+   "label": "Shift",
+   "options": "Shift Type"
+  },
+  {
+   "fieldname": "time_details_section",
+   "fieldtype": "Section Break",
+   "label": "Time Details"
+  },
+  {
+   "fieldname": "scheduled_in_time",
+   "fieldtype": "Time",
+   "label": "Scheduled In Time"
+  },
+  {
+   "fieldname": "actual_in_time",
+   "fieldtype": "Time",
+   "label": "Actual In Time"
+  },
+  {
+   "fieldname": "column_break_keel",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "scheduled_out_time",
+   "fieldtype": "Time",
+   "label": "Scheduled Out Time"
+  },
+  {
+   "fieldname": "actual_out_time",
+   "fieldtype": "Time",
+   "label": "Actual Out Time"
+  },
+  {
+   "fieldname": "justification_section",
+   "fieldtype": "Section Break",
+   "label": "Justification"
+  },
+  {
+   "description": "Employee must explain the reason for late entry, early exit, or absence",
+   "allow_on_submit": 1,
+   "fieldname": "justification",
+   "fieldtype": "Small Text",
+   "label": "Justification"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "justification_date",
+   "fieldtype": "Datetime",
+   "label": "Justification Date",
+   "no_copy": 1
+  },
+  {
+   "fieldname": "approval_section",
+   "fieldtype": "Section Break",
+   "label": "Approval"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "approver",
+   "fieldtype": "Link",
+   "label": "Approver",
+   "options": "User"
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "Pending",
+   "fieldname": "approval_decision",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Approval Decision",
+   "options": "Pending\nApproved\nRejected"
+  },
+  {
+   "fieldname": "column_break_pnty",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "approval_date",
+   "fieldtype": "Date",
+   "label": "Approval Date",
+   "no_copy": 1
+  },
+  {
+   "fieldname": "approval_remarks",
+   "fieldtype": "Small Text",
+   "label": "Approval Remarks"
+  },
+  {
+   "default": "Pending Justification",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Pending Justification\nPending Approval\nApproved\nRejected\nEscalated\nClosed"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-03-27 22:21:48.103439",
+ "modified_by": "Administrator",
+ "module": "Hr Custom",
+ "name": "HR Attendance Warning",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR User",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Employee",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}
