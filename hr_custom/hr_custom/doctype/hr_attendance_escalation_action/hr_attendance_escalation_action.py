@@ -73,22 +73,20 @@ class HRAttendanceEscalationAction(Document):
                 indicator="orange"
             )
 
-        # Create Leave application 
-        
-        leave_app = frappe.new_doc("Leave Application")
-        leave_app.employee = self.employee
-        leave_app.employee_name = self.employee_name
-        leave_app.leave_type = self.leave_type_for_deduction
-        leave_app.from_date = frappe.utils.today()
-        leave_app.to_date = frappe.utils.today()
-        leave_app.total_leave_days = 1
-        leave_app.status = "Approved"
-        leave_app.description = (
-            f"Attendance Escalation Deduction - "
-            f"Month: {self.month} - Ref: {self.name}"
-        )
-        leave_app.insert(ignore_permissions=True)
-        leave_app.submit()
+        # Create Leave ledger entry  
+        today = frappe.utils.today()
+        ledger = frappe.new_doc("Leave Ledger Entry")
+        ledger.employee = self.employee
+        ledger.employee_name = self.employee_name
+        ledger.leave_type = self.leave_type_for_deduction
+        ledger.transaction_type = self.doctype
+        ledger.transaction_name = self.name
+        ledger.leaves = -1
+        ledger.from_date = today
+        ledger.to_date = today
+        ledger.is_carry_forward = 0
+        ledger.is_expired = 0
+        ledger.submit()
 
 
         frappe.msgprint(
