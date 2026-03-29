@@ -2,30 +2,31 @@ import frappe
 from frappe import _
 from datetime import datetime, timedelta
 
+# structue to know who this code is working 
+
+# 1- get the date of yesterday 
+# 2- get the "HR Customization Settings" to know the late & entry threshold 
+# 3- get all active employees and for each one , check : 
+    # A- if the yesterday was a holiday for him 
+    # B- if he was on an approved leave
+    # C- if both (A&B) are false , then get his yesterday attendance record and check : 
+        # *if he didn't have attendance it's means that he's absent , so create a warning for him 
+        # *if he had attendance , then check it to know if he was late or had early exite or none 
+        # and based on that decide to create a warning or not and what type of warning to create
+
 
 def generate_attendance_warnings():
 
-    # get yesterday's date for processing
-    today = datetime.today().date()
+    # create "Yesterday" Date : 
+    yesterday = frappe.utils.add_days( frappe.utils.today(), -1 )
     
-    # get yesterday date 
-    # yesterday = today - timedelta(days=1)
-    
-    # temporary put a specific date for testing : 
-    yesterday = datetime(2026, 3, 26).date()
 
-   
-
-  
     # Get threshold settings from HR Custom Settings doctype
     settings = frappe.get_single( "HR Custom Settings" )
     late_threshold = ( settings.late_entry_threshold_minutes or 15 )
     early_threshold = ( settings.early_exit_threshold_minutes or 15 )
-    
 
     
-
-  
     # Get all active employees
     employees = frappe.get_all(
         "Employee",
@@ -41,7 +42,6 @@ def generate_attendance_warnings():
     )
 
     
-
     created = 0
     skipped = 0
     no_action = 0
@@ -60,6 +60,14 @@ def generate_attendance_warnings():
                 skipped += 1
             else:
                 no_action += 1
+    
+    frappe.log_error(
+        f"Job complete for {yesterday}. "
+        f"Created: {created}, "
+        f"Skipped: {skipped}, "
+        f"No action: {no_action}",
+        "Scheduled Job"
+    )
 
 
 
@@ -143,11 +151,6 @@ def process_employee_for_date( employee, date, late_threshold, early_threshold )
 
         if late_minutes > late_threshold:
             is_late = True
-            frappe.log_error(
-                f"{employee.employee_name} "
-                f"late by {round(late_minutes, 1)} min",
-                "Scheduled Job"
-            )
 
 
     # Check Early Exit
@@ -160,11 +163,6 @@ def process_employee_for_date( employee, date, late_threshold, early_threshold )
 
         if early_minutes > early_threshold:
             is_early = True
-            frappe.log_error(
-                f"{employee.employee_name} "
-                f"early by {round(early_minutes, 1)} min",
-                "Scheduled Job"
-            )
 
    
     if is_late and is_early:
@@ -329,10 +327,10 @@ def is_on_approved_leave(employee, date):
 def get_timedelta_seconds(td):
     if td is None:
         return 0
+    if hasattr(td, 'total_seconds'):
+        return int(td.total_seconds())  
     if hasattr(td, 'seconds'):
         return td.seconds
-    if hasattr(td, 'total_seconds'):
-        return int(td.total_seconds())
     return 0
 
 
@@ -401,3 +399,4 @@ def format_datetime_to_time(dt_value):
         return dt_value.strftime("%H:%M:%S")
 
     return str(dt_value)
+

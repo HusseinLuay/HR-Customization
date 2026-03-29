@@ -154,8 +154,8 @@
    "label": "Justification"
   },
   {
-   "description": "Employee must explain the reason for late entry, early exit, or absence",
    "allow_on_submit": 1,
+   "description": "Employee must explain the reason for late entry, early exit, or absence",
    "fieldname": "justification",
    "fieldtype": "Small Text",
    "label": "Justification"
@@ -177,7 +177,8 @@
    "fieldname": "approver",
    "fieldtype": "Link",
    "label": "Approver",
-   "options": "User"
+   "options": "User",
+   "permlevel": 1
   },
   {
    "allow_on_submit": 1,
@@ -186,7 +187,8 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Approval Decision",
-   "options": "Pending\nApproved\nRejected"
+   "options": "Pending\nApproved\nRejected",
+   "permlevel": 1
   },
   {
    "fieldname": "column_break_pnty",
@@ -217,7 +219,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-03-27 22:21:48.103439",
+ "modified": "2026-03-29 11:43:09.430218",
  "modified_by": "Administrator",
  "module": "Hr Custom",
  "name": "HR Attendance Warning",
