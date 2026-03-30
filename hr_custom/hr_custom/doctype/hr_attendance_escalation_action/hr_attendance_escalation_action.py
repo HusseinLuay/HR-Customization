@@ -301,24 +301,80 @@ def get_leave_balance(employee, leave_type):
 def get_daily_salary_amount(employee):
     try:
         # Get employee base salary
-        base_salary = frappe.db.get_value(
+        assignment  = frappe.db.get_value(
             "Salary Structure Assignment",
             {
                 "employee": employee,
                 "docstatus": 1
             },
-            "base",
+            ["base","salary_structure"],
             order_by="from_date desc"
         )
 
-        if not base_salary:
-            # Default to 0 if not found
-            return 0
+        base = float(assignment.base or 0)
+        salary_structure = assignment.salary_structure
+        
+        earnings = frappe.get_all(
+        "Salary Detail",
+        filters={
+            "parent": salary_structure,
+            "parentfield": "earnings",
+            "parenttype": "Salary Structure"
+        },
+        fields=[
+            "salary_component",
+            "amount",
+            "formula",
+            "amount_based_on_formula"
+        ]
+    )
+        
+        deductions = frappe.get_all(
+        "Salary Detail",
+        filters={
+            "parent": salary_structure,
+            "parentfield": "deductions",
+            "parenttype": "Salary Structure"
+        },
+        fields=[
+            "salary_component",
+            "amount",
+            "formula",
+            "amount_based_on_formula"
+        ]
+    )
+        
+        
+        total_earnings = base
+        
+        for earning in earnings:
+            if earning.amount_based_on_formula and earning.formula:
+                amount = evaluate_formula(
+                earning.formula,
+                base
+            )
+            else:
+                amount = float(earning.amount or 0)
+                total_earnings += amount
+        
+        
+        total_deductions = 0
+        for deduction in deductions:
+            if deduction.amount_based_on_formula and deduction.formula:
+                amount = evaluate_formula(
+                deduction.formula,
+                base
+            )
+            else:
+                amount = float(deduction.amount or 0)
+                total_deductions += amount
+                
+        net_pay = total_earnings - total_deductions
 
         # Calculate daily rate
-        # Assuming 26 working days per month
-        working_days = 26
-        daily_amount = float(base_salary) / working_days
+        # Assuming 30 working days per month
+        working_days = 30
+        daily_amount = float(net_pay) / working_days
 
         return round(daily_amount, 2)
 
@@ -327,5 +383,21 @@ def get_daily_salary_amount(employee):
             f"Could not calculate daily salary "
             f"for {employee}: {str(e)}",
             "Salary Calculation Error"
+        )
+        return 0
+    
+
+def evaluate_formula(formula, base):
+    try:
+        # Only allow safe variables
+        result = frappe.safe_eval(
+            formula,
+            eval_locals={"base": base}
+        )
+        return float(result or 0)
+    except Exception as e:
+        frappe.log_error(
+            f"Could not evaluate formula '{formula}': {str(e)}",
+            "Formula Evaluation Error"
         )
         return 0
